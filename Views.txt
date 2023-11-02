@@ -1,0 +1,155 @@
+Views: 
+
+
+CREATE OR REPLACE VIEW v_m_sastav_proizvodi (
+	id,
+	kolicina,
+	id_namirnice,  
+	id_proizvoda   
+	naziv_namirnice,
+	user_dodavanja,
+	datum_dodavanja,
+	user_izmjene,
+	datum_izmjene)
+
+AS
+
+SELECT  s.id,
+	s.kolicina,
+	nam.id,
+	nam.sifra,
+	nam.naziv,
+	s.user_dodavanja,
+	s.datum_dodavanja,
+	s.user_izmjene,
+	s.datum_izmjene 
+  
+FROM 
+M_SASTAV_PROIZVODA s,
+M_NAMIRNICE nam
+    
+WHERE nam.id=s.id_namirnice
+
+
+
+
+
+CREATE OR REPLACE VIEW v_i_izlaz_namirnica (
+	id,
+	datum,
+	kolicina,
+	id_namirnice,
+	sifra_namirnice,
+	naziv_namirnice,
+	user_dodavanja,
+	datum_dodavanja,
+	user_izmjene,
+	datum_izmjene)
+
+AS
+
+SELECT 	i.id,
+	i.datum,
+	i.kolicina,
+	nam.id,
+	nam.sifra,
+	nam.naziv,
+	i.user_dodavanja,
+	i.datum_dodavanja,
+	i.user_izmjene,
+	i.datum_izmjene
+      
+FROM 
+I_IZLAZ_NAMIRNICA i,
+M_NAMIRNICE nam
+    
+WHERE nam.id=i.id_namirnice
+
+
+
+
+
+
+CREATE OR REPLACE VIEW v_t_racuni_zag (
+	id,
+	broj,
+	datum_izdavanja,
+	datum_placanja,
+	opis,
+	opis_duzi,
+	oznaka_potvrde,
+	id_kupca,
+	sifra_kupca,
+	naziv_kupca,
+	id_mt,
+	sifra_mt,
+	naziv_mt,
+	user_dodavanja,
+	datum_dodavanja,
+	user_izmjene,
+	datum_izmjene)
+
+AS
+
+SELECT 	zag.id,
+	zag.broj,
+	zag.datum_izdavanja,
+	zag.datum_placanja,
+	zag.opis,
+	zag.opis_duzi,
+	zag.oznaka_potvrde,
+	kup.id,
+	kup.sifra,
+	kup.naziv,
+	m.id,
+	m.sifra,
+	m.naziv,
+	zag.user_dodavanja,
+	zag.datum_dodavanja,
+	zag.user_izmjene,
+	zag.datum_izmjene
+
+      
+FROM 
+T_RACUNI_ZAG zag,
+M_KUPCI kup,
+M_MT m
+    
+WHERE m.id=zag.id_mt AND kup.id=zag.id_kupca
+
+
+
+
+
+
+CREATE OR REPLACE VIEW v_t_racuni_sta (
+	id,
+	kolicina,
+	prodajna_cijena,
+	id_proizvoda,
+	sifra_proizvoda,
+	naziv_proizvoda,
+	user_dodavanja,
+	datum_dodavanja,
+	user_izmjene,
+	datum_izmjene)
+
+AS
+
+SELECT 	sta.id,
+	sta.kolicina,
+	sta.prodajna_cijena,
+	pro.id,
+	pro.sifra,
+	pro.naziv,
+	sta.user_dodavanja,
+	sta.datum_dodavanja,
+	sta.user_izmjene,
+	sta.datum_izmjene
+
+      
+FROM 
+T_RACUNI_STA sta,
+M_PROIZVODI pro
+    
+WHERE pro.id=sta.id_proizvoda
